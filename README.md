@@ -1,2 +1,14 @@
 # CEN3031-Group91
-Semester Long Project for CEN3031
+Project Name:
+
+
+Project Description:
+
+
+Front-end engineers:
+Cameron Ketchem
+Sebastian Sarmiento
+
+Back-end engineers:
+Mateo Slivka
+Michail Zeipekki
