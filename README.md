@@ -6,9 +6,9 @@ Project Description:
 
 
 Front-end engineers:
-Cameron Ketchem
+Cameron Ketchem,
 Sebastian Sarmiento
 
 Back-end engineers:
-Mateo Slivka
+Mateo Slivka,
 Michail Zeipekki
