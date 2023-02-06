@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
+import { HomeComponent } from './home/home.component';
 
 @Component({
   selector: 'app-root',
@@ -8,3 +11,4 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'CrowdNFT';
 }
+
