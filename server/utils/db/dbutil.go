@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/mattn/go-sqlite3"
 	"os"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"sync"
@@ -45,6 +46,7 @@ type txExecutionContext struct {
 
 // URI converts a filename and db options into an SQLITE3 connection URI.
 func URI(filename string, readOnly bool, memory bool) string {
+	filename = filepath.FromSlash(filename)
 	uri := fmt.Sprintf("file:%s?_busy_timeout=%d&_synchronous=full", filename, busy)
 	if !readOnly {
 		uri += "&_txlock=immediate"
