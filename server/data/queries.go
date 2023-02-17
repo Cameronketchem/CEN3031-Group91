@@ -23,7 +23,7 @@ func (str *Store) QueryAssetById(id int) (Asset, error) {
 		return err
 	})
 
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		return Asset{}, err
 	}
 
@@ -43,7 +43,7 @@ func (str *Store) QueryContractById(id int) (Contract, error) {
 		return err
 	})
 
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		return Contract{}, err
 	}
 
@@ -63,7 +63,7 @@ func (str *Store) QueryUserById(id int) (User, error) {
 		return err
 	})
 
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		return User{}, err
 	}
 
@@ -83,7 +83,7 @@ func (str *Store) QueryContribById(id int) (Contribution, error) {
 		return err
 	})
 
-	if err != nil && err != sql.ErrNoRows {
+	if err != nil {
 		return Contribution{}, err
 	}
 
