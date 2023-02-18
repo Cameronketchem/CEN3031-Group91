@@ -1,2 +1,51 @@
+<div class="navbar">
+    <div class="app-title">
+        <a routerLink = ''>CrowdNFT</a>
+    </div>
+
+    <div class="search-input-container" >
+        <input placeholder="Search..." type="text">
+        <span class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></span>
+    </div>
+
+    <div class="connect-wallet-btn" routerLink = "connect-wallet" >
+        <div>
+            Connect
+        </div>
+        <div>
+        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+        </div>
+    </div>
+</div>
+
+
+
 
 <router-outlet></router-outlet>
+
+
+
+<div *ngIf="displayWelcomeMessage" class="welcome-msg-background" >
+    <div class="welcome-msg" >
+      <i class="fa-solid fa-x close-welcome-msg" (click)="closeWelcomeMessage()" ></i>
+      <h1>Welcome to CrowdNFT!</h1>
+      <div>
+        Our project is a web app that serves as a marketplace for NFTs. 
+        Except instead of unique bidders competing against each other, 
+        our app will allow users to pool their money together and make 
+        bids to purchase that NFT communally. Users will send their funds 
+        to a contract, and the contract will be programmed to make bids 
+        on their behalf. If the bid is won, then that programmable 
+        contract will take ownership of the NFT and distribute a token 
+        (equivalent to a share in a public company) representing ownership 
+        of that NFT. On the other hand, the contract will refund all funds 
+        to their respective owners if it fails to win the auction. The 
+        project is inspired by an autonomous contract that was used to 
+        bid on a sale of a copy of the US constitution. By using 
+        decentralized networks, we hope to enable public ownership of 
+        assets with no potentially untrustworthy intermediaries; all 
+        decisions will be made via democratic voting.
+      </div>
+      
+    </div>
+  </div>

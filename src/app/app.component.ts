@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { LoginComponent } from './login/login.component';
-import { SignupComponent } from './signup/signup.component';
-import { HomeComponent } from './home/home.component';
 
 @Component({
   selector: 'app-root',
@@ -10,5 +7,14 @@ import { HomeComponent } from './home/home.component';
 })
 export class AppComponent {
   title = 'CrowdNFT';
+  displayWelcomeMessage: boolean;
+
+  constructor(){
+    this.displayWelcomeMessage = true;
+  };
+
+  public closeWelcomeMessage(){
+    this.displayWelcomeMessage = false;
+  }
 }
 

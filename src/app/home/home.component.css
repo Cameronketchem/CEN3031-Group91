@@ -1,21 +1,29 @@
-    button {
-      background-color: #eee;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      color: black;
-      font-size: 1.2rem;
-      padding: 1rem;
-      margin-right: 1rem;
-      margin-bottom: 1rem;
-      margin-top: 1rem;
-    }
-    button:hover {
-      background-color: black;
-      color: white;
-    }
-    button:disabled {
-      background-color: #eee;
-      color: #aaa;
-      cursor: auto;
-    }
+/* Welcome message */
+
+.nft-feed-container{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
+  padding: 24px;
+  justify-content: center;
+}
+
+.github-link{
+  color: rgba(0, 0, 0, 0.636);
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 24px;
+  border-radius: 24px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+  border: 1px solid rgba(0, 0, 0, 0.093);
+}
+
+svg#clouds {
+  position: fixed;
+  bottom: -160px;
+  left: -230px;
+  z-index: -10;
+  width: 1920px;
+}

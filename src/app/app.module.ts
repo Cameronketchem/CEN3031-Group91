@@ -4,20 +4,19 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SignupComponent } from './signup/signup.component';
-import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { NftCardComponent } from './nft-card/nft-card.component';
+import { ConnectWalletComponent } from './connect-wallet/connect-wallet.component';
 
 const routes: Routes = [ {path: '', component: HomeComponent}, 
-  { path: 'signup', component: SignupComponent }, 
-{path: 'login', component: LoginComponent}];
+  { path: 'connect-wallet', component: ConnectWalletComponent }];
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignupComponent,
-    LoginComponent,
-    HomeComponent
+    HomeComponent,
+    NftCardComponent,
+    ConnectWalletComponent
   ],
   imports: [
     BrowserModule,
