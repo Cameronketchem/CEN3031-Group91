@@ -1,65 +1,70 @@
 
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced. * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
 <style>
-    :host {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-      font-size: 14px;
-      color: #333;
-      box-sizing: border-box;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-  
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      margin: 8px 0;
-    }
-  
-    p {
-      margin: 0;
-    }
-  
-    .spacer {
-      flex: 1;
-    }
-  
-    .loginSpace {
-      margin-right: 10px;
-    }
-  
-    .signupSpace{
-      margin-right: 10px;
-    }
-  
-    .titleSpace{
-      margin-left: 10px;
-    }
-  
-    .toolbar {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 60px;
+    /* Navbar */
+    .navbar {
       display: flex;
       align-items: center;
-      background-color: #1976d2;
-      color: white;
-      font-weight: 600;
+      justify-content: space-between;
+      background-color: #fafafa;
+      padding: 18px 24px;
+      min-height: 40px;
+      max-height: 40px;
+      margin: 0px;
+      box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
     }
-  
+    .navbar > .app-title{
+      font-weight: 500;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    .navbar a {
+      color: rgba(23, 23, 23, 0.712);
+    }
+    .navbar > .connect-wallet-btn{
+      font-size: 1rem;
+      display: flex;
+      color: rgba(23, 23, 23, 0.739);
+      padding: 12px;
+      margin: 0px;
+      transition: all 0.3s ease-in-out;
+    }
+    .navbar > .connect-wallet-btn > div{
+      margin: 0px;
+    }
+    .navbar > .connect-wallet-btn > div > svg{
+      height: 20px;
+      margin-left: 6px;
+    }
+    .navbar > .connect-wallet-btn:hover{
+      cursor: pointer;
+      color: rgba(0, 0, 0, 0.855);
+    }
+
+
+
+    /* Welcome message */
+    .welcome-msg{
+      background: rgb(212,73,134);
+background: linear-gradient(90deg, rgba(212,73,134,1) 0%, rgba(120,23,152,0.5690870098039216) 100%);
+background-color: white;
+      padding: 48px;
+      border-radius: 12px;
+      box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+      min-width: 500px;
+      max-width: 800px;
+      width: 50vw;
+      border: 4px solid rgb(255, 255, 255);
+    }
+    .welcome-msg > h1{
+      color: rgb(241, 241, 241);
+      margin: 0px;
+      margin-bottom: 12px;
+      text-shadow:1px 1px 10px rgba(255, 255, 255, 0.549), 1px 1px 10px rgba(204, 204, 204, 0.508);
+    }
+    .welcome-msg > div{
+      font-size: 1.2rem;
+      line-height: 26px;
+    }
     .content {
       display: flex;
       margin: 82px auto 32px;
@@ -67,93 +72,16 @@
       max-width: 960px;
       flex-direction: column;
       align-items: center;
-    }
-    .card svg.material-icons path {
-      fill: #888;
+      color: rgb(241, 241, 241);
     }
   
-    .card-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 16px;
+
+    .github-link{
+      color: rgba(0, 0, 0, 0.636);
+      position: absolute;
+      bottom: 24px;
     }
-  
-    .card {
-      all: unset;
-      border-radius: 4px;
-      border: 1px solid #eee;
-      background-color: #fafafa;
-      height: 40px;
-      width: 200px;
-      margin: 0 8px 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      transition: all 0.2s ease-in-out;
-      line-height: 24px;
-    }
-  
-    .card-container .card:not(:last-child) {
-      margin-right: 0;
-    }
-  
-    .card.card-small {
-      height: 16px;
-      width: 168px;
-    }
-  
-    .card-container .card:not(.highlight-card) {
-      cursor: pointer;
-    }
-  
-    .card-container .card:not(.highlight-card):hover {
-      transform: translateY(-3px);
-      box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
-    }
-  
-    .card-container .card:not(.highlight-card):hover .material-icons path {
-      fill: rgb(105, 103, 103);
-    }
-  
-    .card.highlight-card {
-      background-color: #1976d2;
-      color: white;
-      font-weight: 600;
-      border: none;
-      width: auto;
-      min-width: 30%;
-      position: relative;
-    }
-  
-    .card.card.highlight-card span {
-      margin-left: 60px;
-    }
-  
-  
-    a{
-      color: #ffffff;
-      text-decoration: none;
-    }
-    a:visited,
-    a:hover {
-      color:#ffffff;
-      text-decoration: none;
-    }
-  
-    .repoLink{
-      color:#1976d2;
-    }
-  
-    footer {
-      margin-top: 8px;
-      display: flex;
-      align-items: center;
-      line-height: 20px;
-    }
-  
+   
     svg#clouds {
       position: fixed;
       bottom: -160px;
@@ -162,52 +90,31 @@
       width: 1920px;
     }
   
-    /* Responsive Styles */
-    @media screen and (max-width: 767px) {
-      .card-container > *:not(.circle-link) ,
-      .terminal {
-        width: 100%;
-      }
-  
-      .card:not(.highlight-card) {
-        height: 16px;
-        margin: 8px 0;
-      }
-  
-      .card.highlight-card span {
-        margin-left: 72px;
-      }
-    }
   </style>
   
   <!-- Toolbar -->
-  <div class="toolbar" role="banner">
-    <span class = "titleSpace"><a routerLink = ''>CrowdNFT</a></span>
-      <div class="spacer">
+  <div class="navbar">
+    <div class="app-title">
+      <a routerLink = ''>CrowdNFT</a>
+    </div>
+  
+    <div class="connect-wallet-btn" routerLink = "connect-wallet" (click)="handleClick()" >
+      <div>
+          Connect
       </div>
-  
-        <a class = "loginSpace" routerLink = "login">
-          Login
-        </a>
-        <br>
-  
-      <a class = "signupSpace" routerLink = "signup">
-        Signup
-      </a>
+      <div>
+        <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M64 32C28.7 32 0 60.7 0 96V416c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V192c0-35.3-28.7-64-64-64H80c-8.8 0-16-7.2-16-16s7.2-16 16-16H448c17.7 0 32-14.3 32-32s-14.3-32-32-32H64zM416 272a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+      </div>
+    </div>
   </div>
   <router-outlet></router-outlet>
   
   <div class="content" role="main">
   
-    <!-- Highlight Card -->
-    <div class="card highlight-card card-small">
-  
-      <h1>Welcome to CrowdNFT!</h1>
-  
-    </div>
-  
-    <div class="bodyClass">
-      <body>Our project is a web app that serves as a marketplace for NFTs. 
+    <div class="welcome-msg" >
+      <h1>Welcome to CrowdNFT! {{ value }}</h1>
+      <div>
+        Our project is a web app that serves as a marketplace for NFTs. 
         Except instead of unique bidders competing against each other, 
         our app will allow users to pool their money together and make 
         bids to purchase that NFT communally. Users will send their funds 
@@ -221,15 +128,15 @@
         bid on a sale of a copy of the US constitution. By using 
         decentralized networks, we hope to enable public ownership of 
         assets with no potentially untrustworthy intermediaries; all 
-        decisions will be made via democratic voting.</body>
+        decisions will be made via democratic voting.
+      </div>
+  
     </div>
   
-    <!-- Footer -->
-    <footer>
-        Want to see how we did it?&nbsp;
-        <div class = "card highlight-card card-small"><a href="https://github.com/Cameronketchem/CEN3031-Group91" target="_blank" rel="noopener" class = "repoLink"> Check out our repo!
-        </a></div>
-    </footer>
+    <div class="github-link" >
+        Want to see how we did it?
+        <a href="https://github.com/Cameronketchem/CEN3031-Group91" target="_blank" rel="noopener" class = "repoLink"> Check out our repo!</a>
+    </div>
   
     <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
       <title>Gray Clouds Background</title>
