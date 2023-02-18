@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { SignupComponent } from '../signup/signup.component';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-home',
@@ -9,14 +7,14 @@ import { LoginComponent } from '../login/login.component';
 })
 export class HomeComponent {
 
-  rando = Math.random() * 100;
+  randomNumbers: Array<Number>;
 
-  @Input() value: 'X' | 'Y' | undefined;
-
-  constructor(){};
-
-  public handleClick(){
-    console.log("Clickeamos!");
+  constructor(){
+    this.randomNumbers = new Array(20);
+    for(let i = 0; i < this.randomNumbers.length; i++){
+      this.randomNumbers[i] = Math.random() * 100;
+    }
   }
+  
 
 }

@@ -1,0 +1,39 @@
+
+.connect-wallet-container {
+background-color: #fafafa;
+margin: 24px;
+padding: 24px;
+box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+border-radius: 12px;
+color: rgba(5, 5, 5, 0.657);
+width: 50vw;
+position: absolute;
+top: calc(50vh - 60px);
+left: 50vw;
+transform: translate(-50%, -50%);
+}
+.connect-wallet {
+display: flex;
+}
+.connect-wallet > input {
+font-size: 1.1rem;
+padding: 12px;
+border-radius: 12px;
+border: 1px solid gray;
+flex-grow: 1;
+}
+.connect-wallet > button {
+margin-left: 12px;
+border-radius: 8px;
+padding: 12px 24px;
+border: 2px solid rgb(212,73,134);
+background: white;
+transition: all 0.2s ease-in-out;
+color: rgb(212,73,134);
+font-size: 1.2rem;
+}
+.connect-wallet > button:hover{
+cursor: pointer;
+background: rgb(212,73,134);
+color: white;
+}
