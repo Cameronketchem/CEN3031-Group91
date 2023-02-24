@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import Web3 from 'web3';
-import { AbiItem } from 'web3-utils';
 
 declare let window: any;
 let web3: Web3;
@@ -14,16 +13,23 @@ let web3: Web3;
 
 export class ConnectWalletComponent {
   web3: any
+  public metaMaskInstalled: boolean = false;
 
   public async login() {
+    if (typeof window.ethereum !== 'undefined') {
     try {
       await window.ethereum.enable();
       this.web3 = new Web3(window.ethereum);
+      this.metaMaskInstalled = true;
       console.log('Web3 instance:', this.web3);
-      // Perform other actions with the web3 instance as needed
     } catch (error) {
       console.error(error);
     }
+  }
+  else{
+    console.log("User does not have Meta Mask extension");
+    alert('You don\'t have the Metamask extension installed!  Please visit "https://metamask.io/" to create an account');
+  }
   }
     
   
