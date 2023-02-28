@@ -14,14 +14,14 @@ import (
 
 // Delete a test database file
 func cleanupSqliteDb(t *testing.T, path string) {
-  path = filepath.FromSlash(path)
+	path = filepath.FromSlash(path)
 	parts, err := filepath.Glob(path + "*")
 	if err != nil {
 		t.Errorf("%s*: could not glob, %s", path, err)
 		return
 	}
 	for _, part := range parts {
-    part = filepath.FromSlash(part)
+		part = filepath.FromSlash(part)
 		err = os.Remove(part)
 		if err != nil {
 			t.Errorf("%s: error cleaning up, %s", part, err)
