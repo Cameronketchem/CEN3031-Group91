@@ -3,7 +3,7 @@ describe('Tests the Meta mask implementation', () => {
     cy.visit('http://localhost:4200/connect-wallet')
     cy.get('.welcome-msg-background').invoke('css', 'display', 'none');
     cy.window().then((window) => {
-      if(window.ethereum){
+      if(cy.window().ethereum){
         cy.get('.connect-wallet').click()
         cy.wrap(window.send).should('be.called')
       }
