@@ -1,20 +1,41 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
-  randomNumbers: Array<Number>;
+  NFTs: Array<{
+    asset_id: Number,
+    asset_contract: Number,
+    desc: String,
+    exec_contract: Number,
+    executor: Number,
+    img_preview: String,
+    price: Number
+  }>;
 
   constructor(){
-    this.randomNumbers = new Array(20);
-    for(let i = 0; i < this.randomNumbers.length; i++){
-      this.randomNumbers[i] = Math.random() * 100;
-    }
+    this.NFTs = new Array();
   }
+  ngOnInit(): void {
+    fetch('http://localhost:8080/api/assets/-1', {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        for(let i = 0; i < data.length; i++){
+          this.NFTs[i] = {...data[i]};
+        }
+      })
+      .catch(err => console.log(err))
+   
+  }
+
+
   
 
 }
