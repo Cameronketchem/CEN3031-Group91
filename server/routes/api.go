@@ -44,6 +44,10 @@ func (api API) Start(port string, seed bool) {
 
 func (api API) get(route string, handler routeHandler) {
 	api.Router.GET(route, func(c *gin.Context) {
+    // Enable CORS
+    c.Header("Access-Control-Allow-Origin", "*")
+    c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+
 		handler(&api.Store, c)
 	})
 }
