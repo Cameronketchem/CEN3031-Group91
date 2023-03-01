@@ -7,13 +7,11 @@ import { Component, Input } from '@angular/core';
 })
 export class NftCardComponent {
 
-
-  randomNumber = Math.random() * 100;
-
-  @Input() name: String | undefined;
+  
+  @Input() id: Number | undefined;
+  @Input() description: String | undefined;
   @Input() price: Number | undefined;
-
-
+  @Input() image: String | undefined;
 
 
 }
