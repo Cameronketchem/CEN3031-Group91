@@ -8,6 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "concurrently -r \"cd server && go test ./...\" \"ng serve\" \"sleep 8 && npx cypress open\"",
     "test-cli": "concurrently -r \"cd server && go test ./...\" \"ng serve\" \"sleep 8 && npx cypress run\"",
+    "test-node": "concurrently -r \"ng serve\" \"sleep 8 && npx cypress run\"",
+    "test-go": "cd server && go test ./...",
     "install-dependencies": "npm install && cd server && go get"
   },
   "private": true,
