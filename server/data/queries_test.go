@@ -28,10 +28,10 @@ func TestQueryAssetByID(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-  // Should show error if AssetID doesnt exist
-  asset, err := str.QueryAssetById(1000)
-  require.Error(t, err)
-  require.Equal(t, asset.AssetID, 0)
+	// Should show error if AssetID doesnt exist
+	asset, err := str.QueryAssetById(1000)
+	require.Error(t, err)
+	require.Equal(t, asset.AssetID, 0)
 }
 
 func TestQueryContractByID(t *testing.T) {
@@ -43,10 +43,10 @@ func TestQueryContractByID(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-  // Should show error if ContractID doesnt exist
-  contract, err := str.QueryContractById(1000)
-  require.Error(t, err)
-  require.Equal(t, contract.ContractID, 0)
+	// Should show error if ContractID doesnt exist
+	contract, err := str.QueryContractById(1000)
+	require.Error(t, err)
+	require.Equal(t, contract.ContractID, 0)
 }
 
 func TestQueryUserByID(t *testing.T) {
@@ -58,10 +58,10 @@ func TestQueryUserByID(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-  // Should show error if UserID doesnt exist
-  user, err := str.QueryUserById(1000)
-  require.Error(t, err)
-  require.Equal(t, user.UserID, 0)
+	// Should show error if UserID doesnt exist
+	user, err := str.QueryUserById(1000)
+	require.Error(t, err)
+	require.Equal(t, user.UserID, 0)
 }
 
 func TestQueryContribByID(t *testing.T) {
@@ -73,10 +73,10 @@ func TestQueryContribByID(t *testing.T) {
 		require.NoError(t, err)
 	}
 
-  // Should show error if ContribID doesnt exist
-  contrib, err := str.QueryContribById(1000)
-  require.Error(t, err)
-  require.Equal(t, contrib.ContribID, 0)
+	// Should show error if ContribID doesnt exist
+	contrib, err := str.QueryContribById(1000)
+	require.Error(t, err)
+	require.Equal(t, contrib.ContribID, 0)
 }
 
 func TestInsertAsset(t *testing.T) {
