@@ -1,5 +1,5 @@
 # CrowdNFT
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme) ![GitHub issues](https://img.shields.io/github/issues/Cameronketchem/CEN3031-Group91)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme) ![GitHub issues](https://img.shields.io/github/issues/Cameronketchem/CEN3031-Group91) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Cameronketchem/CEN3031-Group91/node.yml?label=build-node) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/Cameronketchem/CEN3031-Group91/go.yml?label=build-go)
 
 OpenSea NFT aggregator enabling public pooling/crowdfunding and ownership of NFTs. Users browse NFTs and create crowdfunding campaigns; if the fund manages to outbid other buyers before the auction's expiration, then a new token is launched and distributed according to each user's relative contribution. The token represents a share of ownership (and subsequently a portion of the voting power) of the NFT. Users can trade their ownership tokens on various exchanges, or use them to vote on decisions regarding their NFT.
 
