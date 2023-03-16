@@ -58,7 +58,27 @@ func (str *Store) QueryUserById(id int) (User, error) {
 		id := ctx.Value("id").(int)
 
 		err := tx.QueryRow("SELECT * FROM users WHERE user_id=? LIMIT 1", id).Scan(&(*usr).UserID,
-			&(*usr).WalletPubkey, &(*usr).ProfilePicUrl, &(*usr).Bio)
+			&(*usr).Addr, &(*usr).Nonce, &(*usr).ProfilePicUrl, &(*usr).Bio)
+
+		return err
+	})
+
+	if err != nil {
+		return User{}, err
+	}
+
+	return *usrctx.Value("user").(*User), nil
+}
+
+func (str *Store) QueryUserByAddr(addr string) (User, error) {
+	usrctx := context.WithValue(context.Background(), "user", &User{})
+	usrctx = context.WithValue(usrctx, "addr", addr)
+	err := str.Handler.Rdb.AtomicContext(usrctx, func(ctx context.Context, tx *sql.Tx) error {
+		usr := ctx.Value("user").(*User)
+		addr := ctx.Value("addr").(string)
+
+		err := tx.QueryRow("SELECT * FROM users WHERE addr=? LIMIT 1", addr).Scan(&(*usr).UserID,
+			&(*usr).Addr, &(*usr).Nonce, &(*usr).ProfilePicUrl, &(*usr).Bio)
 
 		return err
 	})
@@ -96,8 +116,8 @@ var insertExpr = []string{
    VALUES(?, ?, ?, ?, ?, ?)`,
 	`INSERT INTO contracts(addr, is_exec, is_finished)
    VALUES(?, ?, ?)`,
-	`INSERT INTO users(wallet_pubkey, profile_pic_url, bio)
-   VALUES(?, ?, ?)`,
+	`INSERT INTO users(addr, nonce, profile_pic_url, bio)
+   VALUES(?, ?, ?, ?)`,
 	`INSERT INTO contributions(exec_contract, user, amt, status)
    VALUES(?, ?, ?, ?)`,
 }
@@ -151,7 +171,27 @@ func (str *Store) InsertUser(usr User) error {
 		}
 		defer stmt.Close()
 
-		_, err = stmt.Exec(usr.WalletPubkey, usr.ProfilePicUrl, usr.Bio)
+		_, err = stmt.Exec(usr.Addr, usr.Nonce, usr.ProfilePicUrl, usr.Bio)
+		return err
+	})
+
+	return err
+}
+
+func (str *Store) UpdateUserNonce(id int, nonce string) error {
+	usrctx := context.WithValue(context.Background(), "id", id)
+	usrctx = context.WithValue(usrctx, "nonce", nonce)
+	err := str.Handler.Wdb.AtomicContext(usrctx, func(ctx context.Context, tx *sql.Tx) error {
+		usr := ctx.Value("id").(int)
+		nce := ctx.Value("nonce").(string)
+
+		stmt, err := tx.Prepare("UPDATE users SET nonce=? WHERE user_id=?")
+		if err != nil {
+			return err
+		}
+		defer stmt.Close()
+
+		_, err = stmt.Exec(nce, usr)
 		return err
 	})
 
@@ -195,7 +235,7 @@ func (str *Store) GetUsers(lastID int) ([]User, error) {
 
 		for rows.Next() {
 			usr := User{}
-			err = rows.Scan(&usr.UserID, &usr.WalletPubkey, &usr.ProfilePicUrl, &usr.Bio)
+			err = rows.Scan(&usr.UserID, &usr.Addr, &usr.Nonce, &usr.ProfilePicUrl, &usr.Bio)
 			if err != nil {
 				return err
 			}

@@ -106,7 +106,7 @@ func TestInsertUser(t *testing.T) {
 	defer str.Close()
 
 	for i := 0; i < 100; i++ {
-		user := User{i, "0xFFAA99999", "website.com", "lorem ipsum"}
+		user := User{i, "0xFFAA99999", "12345", "website.com", "lorem ipsum"}
 		err := str.InsertUser(user)
 		require.NoError(t, err)
 	}
