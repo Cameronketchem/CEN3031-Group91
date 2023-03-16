@@ -23,7 +23,8 @@ type Contract struct {
 
 type User struct {
 	UserID        int    `json:"user_id"`
-	WalletPubkey  string `json:"wallet_pubkey"`
+	Addr          string `json:"addr"`
+	Nonce         string `json:"nonce"`
 	ProfilePicUrl string `json:"profile_pic_url"`
 	Bio           string `json:"bio"`
 }

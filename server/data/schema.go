@@ -32,7 +32,8 @@ var contractSchema = []string{
 var userSchema = []string{
 	`CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-    wallet_pubkey TEXT NOT NULL,
+    addr TEXT NOT NULL,
+    nonce TEXT NOT NULL,
     profile_pic_url TEXT NOT NULL,
     bio TEXT NOT NULL)`,
 }
