@@ -11,7 +11,7 @@ type API struct {
 	Store  data.Store
 	Router *gin.Engine
 	Ctx    *gin.Context
-  secret string
+	secret string
 }
 
 func New(dbpath string, secret string, inMemory bool) (api API) {
@@ -53,8 +53,8 @@ func (api API) get(route string, handler routeHandler) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
 
-    // Pass JWT secret
-    c.Set("jwt-secret", api.secret)
+		// Pass JWT secret
+		c.Set("jwt-secret", api.secret)
 
 		handler(&api.Store, c)
 	})
@@ -66,8 +66,8 @@ func (api API) post(route string, handler routeHandler) {
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
 
-    // Pass JWT secret
-    c.Set("jwt-secret", api.secret)
+		// Pass JWT secret
+		c.Set("jwt-secret", api.secret)
 
 		handler(&api.Store, c)
 	})

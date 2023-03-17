@@ -37,6 +37,7 @@ type signupInput struct {
 	Addr       string `json:"addr" binding:"required"`
 	ProfilePic string `json:"profile_pic_url" binding:"required"`
 	Bio        string `json:"bio" binding:"required"`
+	Signature  string `json:"sig" binding:"required"`
 }
 
 // Creates a new user
@@ -55,7 +56,14 @@ func postSignUp(store *data.Store, c *gin.Context) {
 		return
 	}
 
-	// Generate nonce
+	// Verify signature
+	if err := auth.VerifySignature(input.Addr, input.Signature, "ADDR:"+input.Addr); err != nil {
+		// VerifySignature err response is human-friendly
+		c.JSON(http.StatusBadRequest, gin.H{"error": err})
+		return
+	}
+
+	// Generate new account nonce
 	nonce, err := auth.Nonce(20)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Server failed to fetch response"})
