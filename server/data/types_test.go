@@ -33,8 +33,8 @@ func TestContractToJSON(t *testing.T) {
 }
 
 func TestUserToJSON(t *testing.T) {
-	expect := `{"user_id":1,"wallet_pubkey":"1","profile_pic_url":"1","bio":"1"}`
-	user := User{1, "1", "1", "1"}
+	expect := `{"user_id":1,"addr":"1","nonce":"12345","profile_pic_url":"1","bio":"1"}`
+	user := User{1, "1", "12345", "1", "1"}
 	json, err := user.ToJSON()
 	if err != nil {
 		t.Errorf("User ToJSON returned serialization error")

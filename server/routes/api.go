@@ -11,9 +11,10 @@ type API struct {
 	Store  data.Store
 	Router *gin.Engine
 	Ctx    *gin.Context
+	secret string
 }
 
-func New(dbpath string, inMemory bool) (api API) {
+func New(dbpath string, secret string, inMemory bool) (api API) {
 	api.Router = gin.Default()
 	store, err := data.OpenStore(dbpath, inMemory)
 	if err != nil {
@@ -33,20 +34,40 @@ func (api API) Start(port string, seed bool) {
 	}
 
 	// server/routes/request.go
+	// server/routes/auth.go
 	api.get("api/user/:id", getUserById)
 	api.get("api/asset/:id", getAssetById)
 	api.get("api/contract/:id", getContractById)
 	api.get("api/users/:lastID", getBatchUsers)
 	api.get("api/assets/:lastID", getBatchAssets)
+	api.get("api/auth/:addr", getNonce)
+	api.post("api/auth/signup", postSignUp)
+	api.post("api/auth/login", postLogIn)
 
 	api.Router.Run(port)
 }
 
 func (api API) get(route string, handler routeHandler) {
 	api.Router.GET(route, func(c *gin.Context) {
-    // Enable CORS
-    c.Header("Access-Control-Allow-Origin", "*")
-    c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+		// Enable CORS
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+
+		// Pass JWT secret
+		c.Set("jwt-secret", api.secret)
+
+		handler(&api.Store, c)
+	})
+}
+
+func (api API) post(route string, handler routeHandler) {
+	api.Router.POST(route, func(c *gin.Context) {
+		// Enable CORS
+		c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
+
+		// Pass JWT secret
+		c.Set("jwt-secret", api.secret)
 
 		handler(&api.Store, c)
 	})

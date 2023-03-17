@@ -49,7 +49,7 @@ var demoNftPics = []string{
 
 // Demo seed transactions. These do not reference real contracts yet.
 var demoSeedTxs = []string{
-	`INSERT INTO users(user_id, wallet_pubkey, profile_pic_url, bio) VALUES(?, ?, ?, ?)`,
+	`INSERT INTO users(user_id, addr, nonce, profile_pic_url, bio) VALUES(?, ?, ?, ?, ?)`,
 	`INSERT INTO contracts(contract_id, addr, is_exec, is_finished) VALUES(?, ?, ?, ?)`,
 	`INSERT INTO assets(asset_id, exec_contract, asset_contract, img_preview, executor, desc, price) VALUES(?, ?, ?, ?, ?, ?, ?)`,
 	`INSERT INTO contributions(contrib_id, exec_contract, user, amt, status) VALUES(?, ?, ?, ?, ?)`,
@@ -83,7 +83,7 @@ func demoSeed(ctx context.Context, tx *sql.Tx) error {
 
 	// Insert users
 	for i := 0; i < 7; i++ {
-		_, err = userExpr.Exec(i, demoUserWallets[i], demoProfilePics[i], "Lorem ipsum dolor sit amet")
+		_, err = userExpr.Exec(i, demoUserWallets[i], "12345", demoProfilePics[i], "Lorem ipsum dolor sit amet")
 		if err != nil {
 			return err
 		}
