@@ -1,10 +1,11 @@
 package routes
 
 import (
-	"github.com/Cameronketchem/CEN3031-Group91/server/data"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/Cameronketchem/CEN3031-Group91/server/data"
+	"github.com/gin-gonic/gin"
 )
 
 type routeHandler func(store *data.Store, c *gin.Context)
@@ -40,7 +41,23 @@ func getAssetById(store *data.Store, c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, asset)
+	EContract, Eerr := store.QueryContractById(asset.ExecContract)
+	AContract, Aerr := store.QueryContractById(asset.AssetContract)
+	Executor, _ := store.QueryUserById(asset.Executor)
+
+	if Eerr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No exec contract found."})
+		return
+	}
+
+	if Aerr != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "No asset contract found"})
+		return
+	}
+
+	JSONAsset := gin.H{"asset_id": asset.AssetID, "exec_contract": EContract, "asset_contract": AContract, "img_preview": asset.ImgPreview, "executor": Executor, "desc": asset.Desc, "price": asset.Price}
+	c.JSON(http.StatusOK, JSONAsset)
+
 }
 
 // api/contract/:id
@@ -91,5 +108,24 @@ func getBatchAssets(store *data.Store, c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, assets)
+	var JSONassets = []gin.H{}
+
+	for i := 0; i < 20; i++ {
+		EContract, Eerr := store.QueryContractById(assets[i].ExecContract)
+		AContract, Aerr := store.QueryContractById(assets[i].AssetContract)
+		Executor, _ := store.QueryUserById(assets[i].Executor)
+
+		if Eerr != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No exec contract found for asset ID " + strconv.Itoa(lastID+i)})
+			return
+		}
+
+		if Aerr != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "No asset contract found for asset ID " + strconv.Itoa(lastID+i)})
+			return
+		}
+
+		JSONassets = append(JSONassets, gin.H{"asset_id": assets[i].AssetID, "exec_contract": EContract, "asset_contract": AContract, "img_preview": assets[i].ImgPreview, "executor": Executor, "desc": assets[i].Desc, "price": assets[i].Price})
+	}
+	c.JSON(http.StatusOK, JSONassets)
 }
