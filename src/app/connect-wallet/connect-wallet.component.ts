@@ -1,4 +1,6 @@
+import { AccountService } from './../account.service';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import Web3 from 'web3';
 
 declare let window: any;
@@ -13,7 +15,10 @@ let web3: Web3;
 
 export class ConnectWalletComponent {
   web3: any
+  buttonText = 'Connect'
   public metaMaskInstalled: boolean = false;
+
+  constructor(private accountService: AccountService, private router: Router) { }
 
   public async login() {
     if (typeof window.ethereum !== 'undefined') {
@@ -25,6 +30,17 @@ export class ConnectWalletComponent {
     } catch (error) {
       console.error(error);
     }
+    this.accountService.checkProfileExists();
+    this.accountService.hasAccount$.subscribe(hasAccount => {
+      if (!hasAccount) {
+        this.router.navigate(['profile-creation']);
+        this.buttonText = 'Connect';
+      }
+      else{
+        this.buttonText = 'View Profile';
+        this.router.navigate(['']);
+      }
+    });
   }
   else{
     console.log("User does not have Meta Mask extension");
