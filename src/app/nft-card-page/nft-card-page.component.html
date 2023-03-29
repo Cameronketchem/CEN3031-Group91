@@ -1,0 +1,25 @@
+
+
+<div class="nft-card-page-main-container" >
+
+    <ng-container *ngIf="loading">
+        <div class="loading-nft-card-page-container">
+            <div class="loading-nft-card-page" ></div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="invalidID; else validID">
+        <div class="no-nft-found" >No NFT was found with the ID '<span style="font-weight: 900;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{id}}</span>' </div>
+    </ng-container>
+
+    <ng-template #validID >
+        <div class="nft-card-page-container" *ngIf="NFTData">
+                <img [src]="NFTData.img_preview" alt="">
+                <div><span>Description:</span> {{NFTData.desc}}</div>
+                <div><span>ID:</span> {{NFTData.asset_id}}</div>
+                <div><span>Price:</span> {{NFTData.price}} ETH</div>
+          </div>
+          
+    </ng-template>
+
+</div>

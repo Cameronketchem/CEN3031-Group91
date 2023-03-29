@@ -4,8 +4,8 @@
     </div>
 
     <div class="search-input-container" >
-        <input placeholder="Search..." type="text">
-        <span class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></span>
+        <input (change)="onInputChange($event)" placeholder="Search by ID..." type="text">
+        <span (click)="handleSearchClick($event)" class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></span>
     </div>
 
     <div class="connect-wallet-btn" routerLink = "connect-wallet" >

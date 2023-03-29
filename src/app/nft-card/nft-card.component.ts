@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-nft-card',
@@ -13,5 +15,15 @@ export class NftCardComponent {
   @Input() price: Number | undefined;
   @Input() image: String | undefined;
 
+  constructor(private router: Router){
+
+  }
+
+  visitNFT(id: Number | undefined){
+    console.log("Visit nft with id " + id);
+    if(id){
+      this.router.navigateByUrl(`/nftcard/${id}`)
+    }
+  }
 
 }
