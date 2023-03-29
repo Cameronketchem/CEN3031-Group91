@@ -17,25 +17,46 @@ export class HomeComponent implements OnInit {
     price: Number
   }>;
   showFeed: boolean;
+  dataOffSet: number;
+  loading: boolean;
 
 
   constructor(){
     this.NFTs = new Array();
     this.showFeed = true;
+    this.dataOffSet = -1;
+    this.loading = false;
   }
   ngOnInit(): void {
-    fetch('http://localhost:8080/api/assets/-1', {
+    fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
       method: 'GET'
     })
       .then(res => res.json())
       .then(data => {
         console.log(data)
-        for(let i = 0; i < data.length; i++){
-          this.NFTs[i] = {...data[i]};
-        }
+        this.NFTs = [...data]
       })
       .catch(err => console.log(err))
    
+  }
+
+  loadMoreData(){
+    console.log("loading more data!")
+    this.loading = true;
+    this.dataOffSet += 20;
+    fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.NFTs = [...this.NFTs, ...data];
+        this.loading = false;
+      })
+      .catch(err => {
+        console.log(err);
+        this.loading = false;
+      })
   }
 
 
