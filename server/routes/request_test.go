@@ -1,10 +1,12 @@
 package routes
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/Cameronketchem/CEN3031-Group91/server/utils/db"
@@ -20,7 +22,7 @@ func setUpRouter() *gin.Engine {
 // api/user/:id
 func TestGetUserByID(t *testing.T) {
 
-	api := New("db.sqlite", true)
+	api := New("db.sqlite", "secret", true)
 
 	api.Store.Init(db.SynchronousModeFull, true)
 	api.Store.Seed()
@@ -53,7 +55,7 @@ func TestGetUserByID(t *testing.T) {
 // api/asset/:id
 func TestGetAssetByID(t *testing.T) {
 
-	api := New("db.sqlite", true)
+	api := New("db.sqlite", "secret", true)
 
 	api.Store.Init(db.SynchronousModeFull, true)
 	api.Store.Seed()
@@ -75,8 +77,26 @@ func TestGetAssetByID(t *testing.T) {
 		asset, err := api.Store.QueryAssetById(i)
 		require.NoError(t, err)
 
-		expect, err := asset.ToJSON()
+		//We need to format data to include objects within the assets
+		EContract, err := api.Store.QueryContractById(asset.ExecContract)
+		AContract, err := api.Store.QueryContractById(asset.AssetContract)
+		Executor, _ := api.Store.QueryUserById(asset.Executor)
 		require.NoError(t, err)
+
+		JSONEcontract, err := EContract.ToJSON()
+		JSONAcontract, err := AContract.ToJSON()
+		JSONExecutor, err := Executor.ToJSON()
+		JSONexpect := gin.H{"asset_id": asset.AssetID, "exec_contract": EContract, "asset_contract": AContract, "img_preview": asset.ImgPreview, "executor": Executor, "desc": asset.Desc, "price": asset.Price}
+
+		jsonData, err := json.Marshal(JSONexpect)
+		require.NoError(t, err)
+		expect := string(jsonData)
+		AContractContent := "\"asset_contract\":" + JSONAcontract
+		EContractContent := "\"asset_contract\":" + JSONEcontract
+		ExecutorContent := "\"executor\"" + JSONExecutor
+		expect = strings.Replace(expect, ("\"asset_contract\":" + strconv.Itoa(asset.AssetContract)), AContractContent, 1)
+		expect = strings.Replace(expect, ("\"exec_contract\":" + strconv.Itoa(asset.ExecContract)), EContractContent, 1)
+		expect = strings.Replace(expect, ("\"executor\":" + strconv.Itoa(asset.Executor)), ExecutorContent, 1)
 
 		//Should show error if not the same
 		require.Equal(t, expect, string(responseData))
@@ -86,7 +106,7 @@ func TestGetAssetByID(t *testing.T) {
 // api/contract/:id
 func TestGetContractByID(t *testing.T) {
 
-	api := New("db.sqlite", true)
+	api := New("db.sqlite", "secret", true)
 
 	api.Store.Init(db.SynchronousModeFull, true)
 	api.Store.Seed()
@@ -118,7 +138,7 @@ func TestGetContractByID(t *testing.T) {
 
 // api/users/:lastID
 func TestGetBatchUsers(t *testing.T) {
-	api := New("db.sqlite", true)
+	api := New("db.sqlite", "secret", true)
 
 	api.Store.Init(db.SynchronousModeFull, true)
 	api.Store.Seed()
@@ -160,7 +180,7 @@ func TestGetBatchUsers(t *testing.T) {
 // api/users/:lastID
 func TestGetBatchAssets(t *testing.T) {
 
-	api := New("db.sqlite", true)
+	api := New("db.sqlite", "secret", true)
 
 	api.Store.Init(db.SynchronousModeFull, true)
 	api.Store.Seed()
@@ -183,12 +203,49 @@ func TestGetBatchAssets(t *testing.T) {
 
 	//Formats the expected output together correctly
 	expect := "["
-	line, err := assets[0].ToJSON()
+
+	//We need to format data to include objects within the assets
+	EContract, err := api.Store.QueryContractById(assets[0].ExecContract)
+	AContract, err := api.Store.QueryContractById(assets[0].AssetContract)
+	Executor, _ := api.Store.QueryUserById(assets[0].Executor)
+	require.NoError(t, err)
+
+	JSONEcontract, err := EContract.ToJSON()
+	JSONAcontract, err := AContract.ToJSON()
+	JSONExecutor, err := Executor.ToJSON()
+	JSONexpect := gin.H{"asset_id": assets[0].AssetID, "exec_contract": EContract, "asset_contract": AContract, "img_preview": assets[0].ImgPreview, "executor": Executor, "desc": assets[0].Desc, "price": assets[0].Price}
+
+	jsonData, err := json.Marshal(JSONexpect)
+	require.NoError(t, err)
+	line := string(jsonData)
+	AContractContent := "\"asset_contract\":" + JSONAcontract
+	EContractContent := "\"asset_contract\":" + JSONEcontract
+	ExecutorContent := "\"executor\"" + JSONExecutor
+	line = strings.Replace(line, ("\"asset_contract\":" + strconv.Itoa(assets[0].AssetContract)), AContractContent, 1)
+	line = strings.Replace(line, ("\"exec_contract\":" + strconv.Itoa(assets[0].ExecContract)), EContractContent, 1)
+	line = strings.Replace(line, ("\"executor\":" + strconv.Itoa(assets[0].Executor)), ExecutorContent, 1)
+
 	expect = expect + line
 
 	for i := 1; i < 20; i++ {
-		line, err := assets[i].ToJSON()
+		EContract, err := api.Store.QueryContractById(assets[i].ExecContract)
+		AContract, err := api.Store.QueryContractById(assets[i].AssetContract)
+		Executor, _ := api.Store.QueryUserById(assets[i].Executor)
 		require.NoError(t, err)
+
+		JSONEcontract, err := EContract.ToJSON()
+		JSONAcontract, err := AContract.ToJSON()
+		JSONExecutor, err := Executor.ToJSON()
+		JSONexpect := gin.H{"asset_id": assets[i].AssetID, "exec_contract": EContract, "asset_contract": AContract, "img_preview": assets[i].ImgPreview, "executor": Executor, "desc": assets[i].Desc, "price": assets[i].Price}
+
+		jsonData, err := json.Marshal(JSONexpect)
+		line := string(jsonData)
+		AContractContent := "\"asset_contract\":" + JSONAcontract
+		EContractContent := "\"asset_contract\":" + JSONEcontract
+		ExecutorContent := "\"executor\"" + JSONExecutor
+		line = strings.Replace(line, ("\"asset_contract\":" + strconv.Itoa(assets[i].AssetContract)), AContractContent, 1)
+		line = strings.Replace(line, ("\"exec_contract\":" + strconv.Itoa(assets[i].ExecContract)), EContractContent, 1)
+		line = strings.Replace(line, ("\"executor\":" + strconv.Itoa(assets[i].Executor)), ExecutorContent, 1)
 
 		expect = expect + "," + line
 	}
