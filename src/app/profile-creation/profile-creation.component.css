@@ -1,0 +1,35 @@
+button {
+    margin-left: 12px;
+    border-radius: 8px;
+    padding: 12px 24px;
+    border: 2px solid rgb(212,73,134);
+    background: white;
+    transition: all 0.2s ease-in-out;
+    color: rgb(212,73,134);
+    font-size: 1.2rem;
+    }
+
+button:hover {
+    cursor: pointer;
+    background: rgb(212,73,134);
+    color: white;
+    }
+
+.input {
+    width: 100%;
+}
+
+ form {
+    background-color: #fafafa;
+    margin: 24px;
+    padding: 24px;
+    height: 200 vw;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border-radius: 12px;
+    color: rgba(5, 5, 5, 0.657);
+    width: 75vw;
+    position: absolute;
+    top: calc(50vh - 60px);
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    }
