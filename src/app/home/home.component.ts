@@ -16,9 +16,12 @@ export class HomeComponent implements OnInit {
     img_preview: String,
     price: Number
   }>;
+  showFeed: boolean;
+
 
   constructor(){
     this.NFTs = new Array();
+    this.showFeed = true;
   }
   ngOnInit(): void {
     fetch('http://localhost:8080/api/assets/-1', {

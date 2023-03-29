@@ -4,7 +4,9 @@
 <div class="content" role="main">
 
   <div class="nft-feed-container" >
-    <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
+    <ng-container *ngIf="showFeed">
+      <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
+    </ng-container>
   </div>
 
 
