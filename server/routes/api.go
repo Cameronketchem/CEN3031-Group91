@@ -50,10 +50,8 @@ func (api API) Start(port string, seed bool) {
 func (api API) get(route string, handler routeHandler) {
 	api.Router.GET(route, func(c *gin.Context) {
 		// Enable CORS
-    c.Header("Access-Control-Allow-Origin", "*")
+		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
-    c.Header("Access-Control-Allow-Headers", "X-Requested-With, content-type")
-    c.Header("Access-Control-Allow-Credentials", "true")
 
 		// Pass JWT secret
 		c.Set("jwt-secret", api.secret)
@@ -67,8 +65,6 @@ func (api API) post(route string, handler routeHandler) {
 		// Enable CORS
 		c.Header("Access-Control-Allow-Origin", "*")
 		c.Header("Access-Control-Allow-Methods", "PUT, POST, GET, DELETE, OPTIONS")
-    c.Header("Access-Control-Allow-Headers", "X-Requested-With, content-type")
-    c.Header("Access-Control-Allow-Credentials", "true")
 
 		// Pass JWT secret
 		c.Set("jwt-secret", api.secret)
