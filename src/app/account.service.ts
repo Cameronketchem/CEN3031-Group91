@@ -50,7 +50,6 @@ export class AccountService {
     } catch (error) {
       console.log(error);
     }
-      this.hasAccount.next(true);
   }
 }
 
