@@ -2,9 +2,13 @@ package routes
 
 import (
 	"fmt"
+	"net/http"
+	"time"
+
 	"github.com/Cameronketchem/CEN3031-Group91/server/data"
 	"github.com/Cameronketchem/CEN3031-Group91/server/utils/db"
 	"github.com/gin-gonic/gin"
+	"github.com/juju/ratelimit"
 )
 
 type API struct {
@@ -14,13 +18,33 @@ type API struct {
 	secret string
 }
 
+func RateLimiterMiddleware(limiter *ratelimit.Bucket) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if limiter.TakeAvailable(1) == 0 {
+			c.JSON(http.StatusTooManyRequests, gin.H{"message": "Rate limit exceeded"})
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
+}
+
 func New(dbpath string, secret string, inMemory bool) (api API) {
 	api.Router = gin.Default()
+
+	//Allows 10 requests every 1 second
+	limiter := ratelimit.NewBucketWithQuantum(
+		time.Second,
+		10,
+		10,
+	)
+
+	api.Router.Use(RateLimiterMiddleware(limiter))
+
 	store, err := data.OpenStore(dbpath, inMemory)
 	if err != nil {
 		fmt.Errorf("Failed to open store, exiting with error: %s", err)
 	}
-
 	api.Store = store
 	return api
 }
