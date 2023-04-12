@@ -8,15 +8,56 @@ import (
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/Cameronketchem/CEN3031-Group91/server/utils/db"
 	"github.com/gin-gonic/gin"
+	"github.com/juju/ratelimit"
 	"github.com/stretchr/testify/require"
 )
 
 func setUpRouter() *gin.Engine {
 	router := gin.Default()
 	return router
+}
+
+// Test Throttle
+func TestRateLimiting(t *testing.T) {
+	// Gin router with rate limiter middleware
+	r := gin.Default()
+	limiter := ratelimit.NewBucketWithQuantum(
+		time.Second,
+		10,
+		10,
+	)
+	r.Use(RateLimiterMiddleware(limiter))
+
+	// Endpoint handler function that just returns a simple message
+	r.GET("/api/user/0", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"message": "Request handled"})
+	})
+
+	// Test server using the Gin router
+	server := httptest.NewServer(r)
+	defer server.Close()
+
+	// Send 11 requests, bucket only should allow 10
+	for i := 0; i < 11; i++ {
+		resp, err := http.Get(server.URL + "/api/user/0")
+		if err != nil {
+			t.Fatalf("Failed to send request: %v", err)
+		}
+		if resp.StatusCode == http.StatusTooManyRequests {
+			// Rate limit exceeded, passes test
+			return
+		}
+		if resp.StatusCode != http.StatusOK {
+			t.Fatalf("Unexpected status code: %d", resp.StatusCode)
+		}
+	}
+
+	// The rate limit was not exceeded so the test fails
+	t.Fatalf("Rate limit was not exceeded")
 }
 
 // api/user/:id
