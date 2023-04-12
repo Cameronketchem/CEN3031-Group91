@@ -4,7 +4,7 @@
     </div>
 
     <div class="search-input-container" >
-        <input (change)="onInputChange($event)" placeholder="Search by ID..." type="text">
+        <input (change)="onInputChange($event)" (keyup.enter)="handleSearchClick($event)" placeholder="Search by ID..." type="text">
         <span (click)="handleSearchClick($event)" class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></span>
     </div>
 
