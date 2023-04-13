@@ -32,7 +32,7 @@ export class AccountService {
     this.nonce = await web3.eth.getTransactionCount(this.userAddress);
     this.walletId = web3.utils.soliditySha3(this.userAddress, this.nonce);
     try {
-      fetch('http://localhost:8080/api/users/${walletId}', {
+      fetch(`http://localhost:8080/api/users/${this.walletId}`, {
         method: 'GET'
       })
         .then(res => res.json())

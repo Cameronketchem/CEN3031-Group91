@@ -1,3 +1,4 @@
+import { AccountService } from './../account.service';
 import { Component } from '@angular/core';
 import Web3 from 'web3';
 
@@ -14,6 +15,13 @@ let web3: Web3;
 export class ConnectWalletComponent {
   web3: any
   public metaMaskInstalled: boolean = false;
+  haveAccount: any;
+
+  constructor(private accountService: AccountService) {
+    this.accountService.hasAccount$.subscribe(hasAccount => {
+      this.haveAccount = hasAccount;
+    });
+  }
 
   public async login() {
     if (typeof window.ethereum !== 'undefined') {
@@ -22,6 +30,11 @@ export class ConnectWalletComponent {
       this.web3 = new Web3(window.ethereum);
       this.metaMaskInstalled = true;
       console.log('Web3 instance:', this.web3);
+      this.accountService.checkProfileExists;
+      this.haveAccount = this.accountService.userHasAccount;
+      if(this.haveAccount){
+        console.log("HEY IT WORKS");
+      }
     } catch (error) {
       console.error(error);
     }

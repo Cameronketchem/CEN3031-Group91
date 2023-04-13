@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AccountService } from './account.service';
 
 
 @Component({
@@ -11,10 +12,13 @@ export class AppComponent {
   title = 'CrowdNFT';
   displayWelcomeMessage: boolean;
   searchQuery = "";
+  haveAccount = false;
 
-  constructor(private router: Router){
-    this.displayWelcomeMessage = true;
-  };
+  constructor(private accountService: AccountService, private router: Router) {
+    this.accountService.hasAccount$.subscribe(hasAccount => {
+      this.haveAccount = hasAccount;
+    });
+  }
 
   public closeWelcomeMessage(){
     this.displayWelcomeMessage = false;
