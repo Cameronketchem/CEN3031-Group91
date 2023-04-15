@@ -3,10 +3,16 @@
         <a routerLink = ''>CrowdNFT</a>
     </div>
 
-    <div class="search-input-container" >
-        <input (change)="onInputChange($event)" (keyup.enter)="handleSearchClick($event)" placeholder="Search by ID..." type="text">
-        <span (click)="handleSearchClick($event)" class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></span>
+    <div class="search-input-container">
+        <select class="search-dropdown">
+            <option value="nft">NFTs</option>
+            <option value="user">Users</option>
+        </select>
+        <input (change)="onInputChange($event)" (keyup.enter)="handleSearchClick($event)" placeholder="Search..." type="text">
+        <span (click)="handleSearchClick($event)" class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
     </div>
+    
+    
 
     <div class="connect-wallet-btn" routerLink = "connect-wallet" >
         <div>

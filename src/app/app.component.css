@@ -56,10 +56,12 @@
     padding: 12px 16px;
     border-radius: 18px;
     border: 1px solid rgba(0, 0, 0, 0.252);
+    border-left: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
     font-size: 0.9rem;
     min-width: 300px;
     font-family: 'Varela';
-  
   }
   
   .navbar > .search-input-container > .search-icon {
@@ -73,6 +75,16 @@
     cursor: pointer;
   }
   
+
+
+  .navbar > .search-input-container > .search-dropdown {
+    padding: 12px 16px;
+    border-radius: 18px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    font-family: 'Varela';
+    border: 1px solid rgba(0, 0, 0, 0.252);
+  }
 
 
   /* Welcome message */
