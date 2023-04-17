@@ -43,7 +43,7 @@ type ERC20ExecutorContract func(txs *bind.TransactOpts, client *ethclient.Client
 func NewExecutor(privKey string, address string) (exec Executor) {
 	client, err := ethclient.Dial(address)
 	if err != nil {
-		fmt.Errorf("Failed to dial eth client at address %s", address)
+		panic(fmt.Sprintf("Failed to dial eth client at address %s", address))
 	}
 
 	exec.Client = client
