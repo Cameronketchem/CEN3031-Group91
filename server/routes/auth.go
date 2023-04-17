@@ -3,6 +3,7 @@ package routes
 import (
 	"database/sql"
 	"github.com/Cameronketchem/CEN3031-Group91/server/auth"
+	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain"
 	"github.com/Cameronketchem/CEN3031-Group91/server/data"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -15,7 +16,7 @@ import (
 
 // Returns the nonce assosciated with an address, or an error if the
 // address is not registered.
-func getNonce(store *data.Store, c *gin.Context) {
+func getNonce(store *data.Store, cont *blockchain.Executor, c *gin.Context) {
 	addr := c.Params.ByName("addr")
 	user, err := store.QueryUserByAddr(addr)
 	if err != nil && err != sql.ErrNoRows {
@@ -32,6 +33,27 @@ func getNonce(store *data.Store, c *gin.Context) {
 	c.JSON(http.StatusOK, user.Nonce)
 }
 
+// isLoggedIn is middleware for checking whether the current session is logged in.
+func isLoggedIn(store *data.Store, cont *blockchain.Executor, c *gin.Context) {
+	if c.GetHeader("auth") == "" {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "No auth header"})
+		return
+	}
+
+	jwt := c.GetHeader("auth")
+	address, userId, err := auth.VerifyJWT(c.Value("jwt-secret").(string), jwt)
+
+	// Return unauthorized error.
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusForbidden, gin.H{"error": "Not logged in"})
+		return
+	}
+
+	// Pass claims to next middleware.
+	c.Set("jwt-address", address)
+	c.Set("jwt-userid", userId)
+}
+
 // SignUp route input schema
 type signupInput struct {
 	Addr       string `json:"addr" binding:"required"`
@@ -41,7 +63,7 @@ type signupInput struct {
 }
 
 // Creates a new user
-func postSignUp(store *data.Store, c *gin.Context) {
+func postSignUp(store *data.Store, cont *blockchain.Executor, c *gin.Context) {
 	// Validate input
 	var input signupInput
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -83,7 +105,7 @@ type signInInput struct {
 }
 
 // Authenticates a user
-func postLogIn(store *data.Store, c *gin.Context) {
+func postLogIn(store *data.Store, cont *blockchain.Executor, c *gin.Context) {
 	// Validate input
 	var input signInInput
 	if err := c.ShouldBindJSON(&input); err != nil {
