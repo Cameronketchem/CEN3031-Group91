@@ -8,6 +8,7 @@ import { HomeComponent } from './home/home.component';
 import { NftCardComponent } from './nft-card/nft-card.component';
 import { ConnectWalletComponent } from './connect-wallet/connect-wallet.component';
 import { NftCardPageComponent } from './nft-card-page/nft-card-page.component';
+import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 const routes: Routes = [ {path: '', component: HomeComponent}, 
   { path: 'connect-wallet', component: ConnectWalletComponent }];
@@ -18,7 +19,8 @@ const routes: Routes = [ {path: '', component: HomeComponent},
     HomeComponent,
     NftCardComponent,
     ConnectWalletComponent,
-    NftCardPageComponent
+    NftCardPageComponent,
+    ProfileViewComponent
   ],
   imports: [
     BrowserModule,
