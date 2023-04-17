@@ -4,7 +4,7 @@
     </div>
 
     <div class="search-input-container">
-        <select class="search-dropdown">
+        <select (change)="onSelectChange($event)" class="search-dropdown">
             <option value="nft">NFTs</option>
             <option value="user">Users</option>
         </select>
