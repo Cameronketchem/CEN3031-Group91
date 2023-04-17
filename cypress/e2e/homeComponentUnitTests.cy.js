@@ -1,4 +1,4 @@
-describe('AppComponent', () => {
+describe('HomeComponent', () => {
   
   it('should create the app', () => {
     cy.visit('http://localhost:4200')
