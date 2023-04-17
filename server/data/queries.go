@@ -50,6 +50,26 @@ func (str *Store) QueryContractById(id int) (Contract, error) {
 	return *cntrctx.Value("contract").(*Contract), nil
 }
 
+func (str *Store) QueryContractByAddr(addr string) (Contract, error) {
+	cntrctx := context.WithValue(context.Background(), "contract", &Contract{})
+	cntrctx = context.WithValue(cntrctx, "addr", addr)
+	err := str.Handler.Rdb.AtomicContext(cntrctx, func(ctx context.Context, tx *sql.Tx) error {
+		contr := ctx.Value("contract").(*Contract)
+		addr := ctx.Value("addr").(string)
+
+		err := tx.QueryRow("SELECT * FROM contracts WHERE addr=? LIMIT 1", addr).Scan(&(*contr).ContractID,
+			&(*contr).Addr, &(*contr).IsExec, &(*contr).IsFinished)
+
+		return err
+	})
+
+	if err != nil {
+		return Contract{}, err
+	}
+
+	return *cntrctx.Value("contract").(*Contract), nil
+}
+
 func (str *Store) QueryUserById(id int) (User, error) {
 	usrctx := context.WithValue(context.Background(), "user", &User{})
 	usrctx = context.WithValue(usrctx, "id", id)
