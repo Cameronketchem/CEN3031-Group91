@@ -48,7 +48,7 @@ describe('HomeComponent', () => {
       cy.url().should('include', 'https://github.com/Cameronketchem/CEN3031-Group91');
   });
 
-  it('Redirects to nft page when searching for a user', () => {
+  it('Redirects to nft page when searching for a nft', () => {
     cy.visit('http://localhost:4200');
     cy.get('.welcome-msg-background').invoke('css', 'display', 'none')
     cy.get('.search-input-container input[type="text"]').type('1');
