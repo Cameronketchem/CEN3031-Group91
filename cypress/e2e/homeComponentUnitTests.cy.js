@@ -1,4 +1,5 @@
 describe('AppComponent', () => {
+  
   it('should create the app', () => {
     cy.visit('http://localhost:4200')
     cy.get('app-root').should('exist')
@@ -21,7 +22,7 @@ describe('AppComponent', () => {
 
   it('should contain a link to connect wallet', () => {
     cy.visit('http://localhost:4200')
-    cy.get('app-root divB').should('have.attr', 'routerLink', 'connect-wallet') 
+    cy.get('app-root divBu').should('have.attr', 'routerLink', 'connect-wallet') 
   });
 
   it('should look at the search bar', () => {
