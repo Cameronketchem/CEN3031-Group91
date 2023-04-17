@@ -17,7 +17,8 @@ This will be achieved by first fetching NFT auctions (via API calls) from the [O
 We'll either be launching our own testing network or use a publicly available testnet to avoid incurring real-life costs. We'll be using GoLang, Solidity, and SQLite in the backend, and AngularJS in the frontend. 
 
 ## Install
-This project requires [NodeJS](https://nodejs.org/en/) and [Git](https://git-scm.com). Also, make sure you have `build-essential` (Linux) or `xcode-select` (MacOS).
+### Project Dependencies
+This project requires [NodeJS](https://nodejs.org/en/), [Git](https://git-scm.com) and [Go](https://go.dev/). Also, make sure you have `build-essential` (Linux) or `xcode-select` (MacOS).
 ```
 sudo apt install build-essential
 // or...
@@ -34,13 +35,50 @@ Navigate to the project directory and install the project dependencies:
 cd CEN3031-Group91 && npm run install-dependencies
 ```
 
+### Ethereum Node (required)
+This project requires an RPC-addressible Ethereum node to manage requests to the Ethereum blockchain. You can set up a test node with [Ganache](https://trufflesuite.com/ganache/) (recommended for testing) or [Geth](https://geth.ethereum.org/).
+
+### Optional Dependencies
+If you wish to manually compile `server/blockchain/Makefile`, then you'll also need [abigen & solc](https://goethereumbook.org/smart-contract-compile/). This step isn't necessary if your only goal is to run the project.
+
 ## Usage
-<b> Dev environment: </b>
+### Prerequisites
+Ensure you've followed the installation steps above. You'll need your Ganache/Geth node to be set-up and running.
+
+### Setting up .env environment
+You will need to create a `.env` file in the server directory. Assuming you're in the project root directory, run:
+```
+touch server/.env
+```
+
+Open the file in your text editor (or run `nano server/.env`) and add the following configurations:
+```
+# The path to your database storage file. You can leave this as is
+# if this is your first time running.
+DB_PATH = server.sqlite3
+
+# A secret string to generate tokens. Can be set to anything.
+SECRET = abc123456789
+
+# Your ethereum network private key. This key will launch NFTs and pay fees.
+PRIV_KEY = 64aac6f5e6834cfc54025509f3a9302dd148ac30ea42118fd6d83e716e5ca77b
+
+# Address of your Ganache/Geth setup.
+NODE_ADDR = http://127.0.0.1:7545
+```
+
+### Launching the process
 To launch the development environment, run the following in your terminal:
 ```
 npm start
 ```
 The frontend will then be accessible via `http://localhost:4200` and the backend will point to `http://localhost:8080`.
+
+### Testing (optional)
+* To run all tests: `npm run test`
+* To run tests with no GUI: `npm run test-cli`
+* To run NodeJS tests: `npm run test-node`
+* To run Golang tests: `npm run test-go`
 
 ## Maintainers
 <b> Frontend: </b><br>
