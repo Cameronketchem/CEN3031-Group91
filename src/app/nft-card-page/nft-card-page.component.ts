@@ -47,7 +47,6 @@ export class NftCardPageComponent {
 
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
-      console.log("ID is " + this.id)
 
       this.loading = true;
       fetch(`http://localhost:8080/api/asset/${this.id}`)

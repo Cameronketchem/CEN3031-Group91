@@ -9,7 +9,7 @@ import { ProfileViewComponent } from './profile-view/profile-view.component';
 
 const routes: Routes = [  {path:'', component: HomeComponent},
 { path: 'connect-wallet', component: ConnectWalletComponent },
-{ path: 'profile', component: ProfileViewComponent },
+{ path: 'user/:id', component: ProfileViewComponent },
 { path: 'nftcard/:id', component: NftCardPageComponent }]
 
 @NgModule({

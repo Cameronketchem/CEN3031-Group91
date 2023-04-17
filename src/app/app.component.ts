@@ -30,7 +30,7 @@ export class AppComponent {
         this.router.navigate(['/nftcard/', this.searchQuery]);
       } else if(this.searchCategory == "user"){
         console.log("Searching user with ID " + this.searchQuery)
-        // Still need to implement routing to user page
+        this.router.navigate(['/user/', this.searchQuery]);
       }
     }
   }
