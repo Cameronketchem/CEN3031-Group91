@@ -35,8 +35,10 @@ Navigate to the project directory and install the project dependencies:
 cd CEN3031-Group91 && npm run install-dependencies
 ```
 
-### Ethereum Node (required)
+### Ethereum Dependencies
 This project requires an RPC-addressible Ethereum node to manage requests to the Ethereum blockchain. You can set up a test node with [Ganache](https://trufflesuite.com/ganache/) (recommended for testing) or [Geth](https://geth.ethereum.org/).
+
+Additionally, you may choose to install a browser-based wallet. We reccomend [metamask](https://metamask.io/). This step is necessary if you wish to interact with assets/accounts on the project frontend.
 
 ### Optional Dependencies
 If you wish to manually compile `server/blockchain/Makefile`, then you'll also need [abigen & solc](https://goethereumbook.org/smart-contract-compile/). This step isn't necessary if your only goal is to run the project.
@@ -51,7 +53,7 @@ You will need to create a `.env` file in the server directory. Assuming you're i
 touch server/.env
 ```
 
-Open the file in your text editor (or run `nano server/.env`) and add the following configurations:
+Open the file in your text editor (or run `nano server/.env`) and add the following configurations (you'll need to modify these):
 ```
 # The path to your database storage file. You can leave this as is
 # if this is your first time running.
