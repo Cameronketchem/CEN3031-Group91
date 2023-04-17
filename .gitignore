@@ -12,6 +12,9 @@ build/*
 *.sqlite3-shm
 *.sqlite3-wal
 
+# ENV files
+*.env
+
 # Node
 /node_modules
 npm-debug.log
