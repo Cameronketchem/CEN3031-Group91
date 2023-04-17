@@ -14,8 +14,8 @@ export class ProfileViewComponent {
   invalidID: boolean;
   userData: {
     user_id: string,
-    wallet_pubkey: string,
-    public_pic_url: string,
+    addr: string,
+    profile_pic_url: string,
     bio: string
   };
 
@@ -27,8 +27,8 @@ export class ProfileViewComponent {
     this.invalidID = false;
     this.userData = {
       user_id: '',
-      wallet_pubkey: '',
-      public_pic_url: '',
+      addr: '',
+      profile_pic_url: '',
       bio: ''
     };
 

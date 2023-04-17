@@ -1,3 +1,23 @@
-<div>
-    <h1>User {{ userData.user_id }}</h1>
+<div class="user-view-main-container" >
+
+    <ng-container *ngIf="loading">
+        <div class="loading-user-view-page-container">
+            <div class="loading-user-view-page" ></div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="invalidID; else validID">
+        <div class="no-user-found" >No user was found with the ID '<span style="font-weight: 900;font-family: Verdana, Geneva, Tahoma, sans-serif;">{{id}}</span>' </div>
+    </ng-container>
+
+    <ng-template #validID >
+        <div class="user-view-page-container" *ngIf="userData">
+                <img [src]="userData.profile_pic_url" alt="">
+                <div><span>User id:</span> {{userData.user_id}}</div>
+                <div><span>bio:</span> {{userData.bio}}</div>
+                <div><span>Wallet address:</span> {{userData.addr}}</div>
+          </div>
+          
+    </ng-template>
+
 </div>
