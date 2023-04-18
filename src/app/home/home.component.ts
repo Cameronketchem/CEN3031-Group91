@@ -20,6 +20,7 @@ export class HomeComponent implements OnInit {
   dataOffSet: number;
   loading: boolean;
   noMoreData: boolean;
+  feedCategory: string;
 
 
   constructor(){
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
     this.dataOffSet = -1;
     this.loading = false;
     this.noMoreData = false;
+    this.feedCategory = "nfts";
   }
   ngOnInit(): void {
     fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
@@ -80,6 +82,10 @@ export class HomeComponent implements OnInit {
       this.NFTs.sort((a: any, b: any) => a.price - b.price);
     }
 
+  }
+
+  toggleSelected(category: string) {
+    this.feedCategory = category;
   }
 
 

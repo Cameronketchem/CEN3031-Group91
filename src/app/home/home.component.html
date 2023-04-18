@@ -7,8 +7,10 @@
 
   <div class="nft-feed-container" >
     <div class="feed-menu-bar" >
-      <div>
-        Showing {{ dataOffSet + 21 }} results for NFTs
+      <div class="toggle-feed-results">
+        Showing {{ dataOffSet + 21 }} results for 
+        <span (click)="toggleSelected('nfts')" [class.selected]="feedCategory === 'nfts'">NFTs</span>
+        <span (click)="toggleSelected('users')" [class.selected]="feedCategory === 'users'">Users</span>
       </div>
       <div class="sort-by-container" >
         <span>Sort by </span>
