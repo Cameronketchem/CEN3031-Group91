@@ -42,10 +42,17 @@ func New(dbpath string, secret string, inMemory bool) (api API) {
 	api.Router.Use(
 		RateLimiterMiddleware(limiter),
 		func(c *gin.Context) {
-			c.Writer.Header().Set("Content-Security-Policy", "default-src 'self'") //Allows site adminstators to control resources allowed to be loaded for a page.
+
+			//Allows site administators to control resources allowed to be loaded for a page.
 			//Helps protect from XSS attacks. Default src-directve set for the fetch directives of each resource.
-			c.Writer.Header().Set("X-Frame-Options", "SAMEORIGIN")                                    //Avoid click-jacking attacks by only including a page in <frame> that is served by the same place as the page.
-			c.Writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains") //Browser remembers site should only be accessed by HTTPS for 1 year.
+			c.Writer.Header().Set("Content-Security-Policy", "default-src 'self'")
+
+			//Avoid click-jacking attacks by only including a page in <frame> that is served by the same place as the page.
+			c.Writer.Header().Set("X-Frame-Options", "SAMEORIGIN")
+
+			//Browser remembers site should only be accessed by HTTPS for 1 year.
+			c.Writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+
 			c.Next()
 		})
 
