@@ -56,6 +56,17 @@ svg#clouds {
   cursor: pointer;
 }
 
+.feed-load-more-container > div.no-more-nfts {
+  background-color: transparent;
+  text-align: center;
+  box-shadow: none;
+  border: none;
+}
+.feed-load-more-container > div.no-more-nfts:hover{
+  cursor: default;
+  box-shadow: none;
+  transform: none;
+}
 
 
 

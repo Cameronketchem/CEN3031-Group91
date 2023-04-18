@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   showFeed: boolean;
   dataOffSet: number;
   loading: boolean;
+  noMoreData: boolean;
 
 
   constructor(){
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
     this.showFeed = true;
     this.dataOffSet = -1;
     this.loading = false;
+    this.noMoreData = false;
   }
   ngOnInit(): void {
     fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
@@ -55,6 +57,9 @@ export class HomeComponent implements OnInit {
       })
       .catch(err => {
         console.log(err);
+        // If we receive error then most probably there are no more NFTs left
+        console.log("HERE")
+        this.noMoreData = true;
         this.loading = false;
       })
   }

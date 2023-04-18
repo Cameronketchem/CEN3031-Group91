@@ -7,11 +7,14 @@
     <ng-container *ngIf="showFeed">
       <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
       <div class="feed-load-more-container" >
-        <div (click)="loadMoreData()" *ngIf="!loading">
+        <div (click)="loadMoreData()" *ngIf="!loading && !noMoreData">
           <span>+</span>
         </div>
         <div *ngIf="loading">
           <div class="loading-feed-nfts"></div>
+        </div>
+        <div class="no-more-nfts" *ngIf="noMoreData">
+          <span>No more NFTs</span>
         </div>
       </div>
     </ng-container>
