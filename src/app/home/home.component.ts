@@ -16,8 +16,16 @@ export class HomeComponent implements OnInit {
     img_preview: String,
     price: Number
   }>;
+  users: Array<{
+    user_id: Number,
+    addr: String,
+    bio: String,
+    nonce: String,
+    profile_pic_url: String
+  }>;
   showFeed: boolean;
-  dataOffSet: number;
+  NFTsOffSetData: number;
+  usersOffSetData: number;
   loading: boolean;
   noMoreData: boolean;
   feedCategory: string;
@@ -25,14 +33,16 @@ export class HomeComponent implements OnInit {
 
   constructor(){
     this.NFTs = new Array();
+    this.users = new Array();
     this.showFeed = true;
-    this.dataOffSet = -1;
+    this.NFTsOffSetData = -1;
+    this.usersOffSetData = -1;
     this.loading = false;
     this.noMoreData = false;
     this.feedCategory = "nfts";
   }
   ngOnInit(): void {
-    fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
+    fetch(`http://localhost:8080/api/assets/${this.NFTsOffSetData}`, {
       method: 'GET'
     })
       .then(res => res.json())
@@ -41,16 +51,27 @@ export class HomeComponent implements OnInit {
         this.NFTs = [...data]
       })
       .catch(err => console.log(err))
+
+    fetch(`http://localhost:8080/api/users/${this.usersOffSetData}`, {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.users = [...data]
+      })
+      .catch(err => console.log(err))
    
   }
 
   loadMoreData(){
     console.log("loading more data!")
     this.loading = true;
-    this.dataOffSet += 20;
-    fetch(`http://localhost:8080/api/assets/${this.dataOffSet}`, {
-      method: 'GET'
-    })
+    if(this.feedCategory == 'nfts'){
+      this.NFTsOffSetData += 20;
+      fetch(`http://localhost:8080/api/assets/${this.NFTsOffSetData}`, {
+        method: 'GET'
+      })
       .then(res => res.json())
       .then(data => {
         console.log(data)
@@ -63,6 +84,26 @@ export class HomeComponent implements OnInit {
         this.noMoreData = true;
         this.loading = false;
       })
+    } else if(this.feedCategory == 'users') {
+      fetch(`http://localhost:8080/api/users/${this.usersOffSetData}`, {
+        method: 'GET'
+      })
+      .then(res => res.json())
+      .then(data => {
+        console.log(data)
+        this.users = [...this.users, ...data];
+        this.loading = false;
+        if(data.length != 0){
+          this.usersOffSetData += 20;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        // If we receive error then most probably there are no more NFTs left
+        this.noMoreData = true;
+        this.loading = false;
+      })
+    }
   }
 
   onSortByChange(e: any){
@@ -85,7 +126,11 @@ export class HomeComponent implements OnInit {
   }
 
   toggleSelected(category: string) {
+    if(this.feedCategory != category){
+
+    }
     this.feedCategory = category;
+    console.log("Changed to " + category)
   }
 
 

@@ -8,7 +8,7 @@
   <div class="nft-feed-container" >
     <div class="feed-menu-bar" >
       <div class="toggle-feed-results">
-        Showing {{ dataOffSet + 21 }} results for 
+        Showing {{ (feedCategory == 'nfts' ? NFTs.length : users.length) }} results for 
         <span (click)="toggleSelected('nfts')" [class.selected]="feedCategory === 'nfts'">NFTs</span>
         <span (click)="toggleSelected('users')" [class.selected]="feedCategory === 'users'">Users</span>
       </div>
@@ -24,7 +24,12 @@
       </div>
     </div>
     <ng-container *ngIf="showFeed">
-      <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
+      <ng-container *ngIf="feedCategory === 'users'">
+        <app-nft-card *ngFor="let n of users; let i = index" [id]="users[i].user_id" [description]="users[i].bio" [price]="users[i].user_id" [image]="users[i].profile_pic_url" ></app-nft-card>
+      </ng-container>
+      <ng-container *ngIf="feedCategory === 'nfts'">
+        <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
+      </ng-container>
       <div class="feed-load-more-container" >
         <div (click)="loadMoreData()" *ngIf="!loading && !noMoreData">
           <span>+</span>
