@@ -42,7 +42,23 @@ func New(dbpath, secret, privKey, nodeAddr string, inMemory bool) (api API) {
 
 	// Set rate limiter middleware.
 	limiter := ratelimit.NewBucketWithQuantum(time.Second, 10, 10)
-	api.Router.Use(RateLimiterMiddleware(limiter))
+
+	api.Router.Use(
+		RateLimiterMiddleware(limiter),
+		func(c *gin.Context) {
+
+			//Allows site administators to control resources allowed to be loaded for a page.
+			//Helps protect from XSS attacks. Default src-directve set for the fetch directives of each resource.
+			c.Writer.Header().Set("Content-Security-Policy", "default-src 'self'")
+
+			//Avoid click-jacking attacks by only including a page in <frame> that is served by the same place as the page.
+			c.Writer.Header().Set("X-Frame-Options", "SAMEORIGIN")
+
+			//Browser remembers site should only be accessed by HTTPS for 1 year.
+			c.Writer.Header().Set("Strict-Transport-Security", "max-age=31536000; includeSubDomains")
+
+			c.Next()
+		})
 
 	// Open datastore
 	store, err := data.OpenStore(dbpath, inMemory)

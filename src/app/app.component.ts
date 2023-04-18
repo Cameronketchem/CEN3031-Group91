@@ -14,7 +14,7 @@ export class AppComponent {
   searchCategory = "nft" || "user";
 
   constructor(private router: Router){
-    this.displayWelcomeMessage = true;
+    this.displayWelcomeMessage = false;
     this.searchCategory = "nft";
   };
 

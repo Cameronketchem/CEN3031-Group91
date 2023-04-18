@@ -56,9 +56,40 @@ svg#clouds {
   cursor: pointer;
 }
 
+.feed-load-more-container > div.no-more-nfts {
+  background-color: transparent;
+  text-align: center;
+  box-shadow: none;
+  border: none;
+}
+.feed-load-more-container > div.no-more-nfts:hover{
+  cursor: default;
+  box-shadow: none;
+  transform: none;
+}
 
 
 
+
+/* Feed Menu Bar */
+
+.feed-menu-bar{
+  background-color: white;
+  padding: 24px;
+  margin: 12px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column: 1 / -1;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.154);
+  color: rgba(0, 0, 0, 0.733);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 9px, rgba(0, 0, 0, 0.22) 0px 4px 3px;
+}
+
+.sort-by-container{
+  padding: 12px;
+}
 
 
 
