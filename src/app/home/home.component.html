@@ -13,13 +13,18 @@
         <span (click)="toggleSelected('users')" [class.selected]="feedCategory === 'users'">Users</span>
       </div>
       <div class="sort-by-container" >
-        <span>Sort by </span>
-        <select (change)="onSortByChange($event)">
+        <span>Sort by</span>
+        <select *ngIf="feedCategory == 'nfts'" (change)="onSortByChangeNFTs($event)">
           <option value="">Select an option</option>
           <option value="id-lth">ID: low to high</option>
           <option value="id-htl">ID: high to low</option>
-          <option *ngIf="feedCategory == 'nfts'" value="price-lth">Price: low to high</option>
-          <option *ngIf="feedCategory == 'nfts'" value="price-htl">Price: high to low</option>
+          <option value="price-lth">Price: low to high</option>
+          <option value="price-htl">Price: high to low</option>
+        </select>
+        <select *ngIf="feedCategory == 'users'" (change)="onSortByChangeUsers($event)">
+          <option value="">Select an option</option>
+          <option value="id-lth">ID: low to high</option>
+          <option value="id-htl">ID: high to low</option>
         </select>
       </div>
     </div>

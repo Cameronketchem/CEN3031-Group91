@@ -91,6 +91,13 @@ svg#clouds {
   padding: 12px;
 }
 
+select {
+  padding: 8px;
+  border-radius: 12px;
+  margin-left: 12px;
+  font-size: 0.9em;
+}
+
 
 .toggle-feed-results {
   background-color: white;

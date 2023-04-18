@@ -104,15 +104,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  onSortByChange(e: any){
+  onSortByChangeNFTs(e: any){
     let sortValue = e.target.value;
     // Will sort NFTs array by asset_id or price
     if(sortValue == "id-htl"){
       // Sort by asset_id from high to low
-      this.feedCategory == "nfts" ? this.NFTs.sort((a: any, b: any) => b.asset_id - a.asset_id) : this.users.sort((a: any, b: any) => b.user_id - a.user_id)
+      this.NFTs.sort((a: any, b: any) => b.asset_id - a.asset_id)
     } else if(sortValue == "id-lth"){
       // Sort by asset_id from low to high
-      this.feedCategory == "nfts" ? this.NFTs.sort((a: any, b: any) => a.asset_id - b.asset_id) : this.users.sort((a: any, b: any) => a.user_id - b.user_id)
+      this.NFTs.sort((a: any, b: any) => a.asset_id - b.asset_id)
     } else if(sortValue == "price-htl"){
       // Sort by price from high to low
       this.NFTs.sort((a: any, b: any) => b.price - a.price);
@@ -120,6 +120,19 @@ export class HomeComponent implements OnInit {
       // Sort by price from low to high
       this.NFTs.sort((a: any, b: any) => a.price - b.price);
     }
+
+  }
+  onSortByChangeUsers(e: any){
+    let sortValue = e.target.value;
+    // Will sort users array by user_id
+    if(sortValue == "id-htl"){
+      // Sort by user_id from high to low
+      this.users.sort((a: any, b: any) => b.user_id - a.user_id)
+    } else if(sortValue == "id-lth"){
+      // Sort by user_id from low to high
+      this.users.sort((a: any, b: any) => a.user_id - b.user_id)
+    }
+      
 
   }
 
