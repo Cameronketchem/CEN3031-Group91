@@ -3,7 +3,23 @@
 
 <div class="content" role="main">
 
+  
+
   <div class="nft-feed-container" >
+    <div class="feed-menu-bar" >
+      <div>
+        Showing {{ dataOffSet + 21 }} results for NFTs
+      </div>
+      <div class="sort-by-container" >
+        <span>Sort by </span>
+        <select (change)="onSortByChange($event)">
+          <option value="">Select an option</option>
+          <option value="date">Date</option>
+          <option value="name">Name</option>
+          <option value="popularity">Popularity</option>
+        </select>
+      </div>
+    </div>
     <ng-container *ngIf="showFeed">
       <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
       <div class="feed-load-more-container" >

@@ -64,6 +64,11 @@ export class HomeComponent implements OnInit {
       })
   }
 
+  onSortByChange(e: any){
+    console.log("Here")
+    console.log(e.target.value)
+  }
+
 
   
 

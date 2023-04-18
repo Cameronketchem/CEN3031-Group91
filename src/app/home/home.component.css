@@ -71,6 +71,27 @@ svg#clouds {
 
 
 
+/* Feed Menu Bar */
+
+.feed-menu-bar{
+  background-color: white;
+  padding: 24px;
+  margin: 12px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  grid-column: 1 / -1;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.154);
+  color: rgba(0, 0, 0, 0.733);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 9px, rgba(0, 0, 0, 0.22) 0px 4px 3px;
+}
+
+.sort-by-container{
+  background-color: green;
+  padding: 12px;
+}
+
 
 
 .loading-feed-nfts {
