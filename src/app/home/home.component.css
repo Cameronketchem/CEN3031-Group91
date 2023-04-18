@@ -91,6 +91,34 @@ svg#clouds {
   padding: 12px;
 }
 
+select {
+  padding: 8px;
+  border-radius: 12px;
+  margin-left: 12px;
+  font-size: 0.9em;
+}
+
+
+.toggle-feed-results {
+  background-color: white;
+}
+.toggle-feed-results > span{
+  background-color: white;
+  padding: 12px;
+  margin-left: 12px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+}
+.toggle-feed-results > span:hover{
+  cursor: pointer;
+  border: 2px solid rgba(212,73,134,1);
+}
+.toggle-feed-results > span.selected {
+  background-color: rgba(212,73,134,1);
+  color: white;
+}
+
 
 
 .loading-feed-nfts {
