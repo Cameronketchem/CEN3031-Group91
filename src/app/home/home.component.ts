@@ -85,6 +85,7 @@ export class HomeComponent implements OnInit {
         this.loading = false;
       })
     } else if(this.feedCategory == 'users') {
+      this.usersOffSetData += 20;
       fetch(`http://localhost:8080/api/users/${this.usersOffSetData}`, {
         method: 'GET'
       })
@@ -93,9 +94,6 @@ export class HomeComponent implements OnInit {
         console.log(data)
         this.users = [...this.users, ...data];
         this.loading = false;
-        if(data.length != 0){
-          this.usersOffSetData += 20;
-        }
       })
       .catch(err => {
         console.log(err);
@@ -111,10 +109,10 @@ export class HomeComponent implements OnInit {
     // Will sort NFTs array by asset_id or price
     if(sortValue == "id-htl"){
       // Sort by asset_id from high to low
-      this.NFTs.sort((a: any, b: any) => b.asset_id - a.asset_id);
+      this.feedCategory == "nfts" ? this.NFTs.sort((a: any, b: any) => b.asset_id - a.asset_id) : this.users.sort((a: any, b: any) => b.user_id - a.user_id)
     } else if(sortValue == "id-lth"){
       // Sort by asset_id from low to high
-      this.NFTs.sort((a: any, b: any) => a.asset_id - b.asset_id);
+      this.feedCategory == "nfts" ? this.NFTs.sort((a: any, b: any) => a.asset_id - b.asset_id) : this.users.sort((a: any, b: any) => a.user_id - b.user_id)
     } else if(sortValue == "price-htl"){
       // Sort by price from high to low
       this.NFTs.sort((a: any, b: any) => b.price - a.price);

@@ -18,14 +18,14 @@
           <option value="">Select an option</option>
           <option value="id-lth">ID: low to high</option>
           <option value="id-htl">ID: high to low</option>
-          <option value="price-lth">Price: low to high</option>
-          <option value="price-htl">Price: high to low</option>
+          <option *ngIf="feedCategory == 'nfts'" value="price-lth">Price: low to high</option>
+          <option *ngIf="feedCategory == 'nfts'" value="price-htl">Price: high to low</option>
         </select>
       </div>
     </div>
     <ng-container *ngIf="showFeed">
       <ng-container *ngIf="feedCategory === 'users'">
-        <app-nft-card *ngFor="let n of users; let i = index" [id]="users[i].user_id" [description]="users[i].bio" [price]="users[i].user_id" [image]="users[i].profile_pic_url" ></app-nft-card>
+        <app-user-card *ngFor="let n of users; let i = index" [id]="users[i].user_id" [bio]="users[i].bio" [profile_pic_url]="users[i].profile_pic_url" ></app-user-card>
       </ng-container>
       <ng-container *ngIf="feedCategory === 'nfts'">
         <app-nft-card *ngFor="let n of NFTs; let i = index" [id]="NFTs[i].asset_id" [description]="NFTs[i].desc" [price]="NFTs[i].price" [image]="NFTs[i].img_preview" ></app-nft-card>
