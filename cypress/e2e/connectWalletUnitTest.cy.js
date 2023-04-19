@@ -2,13 +2,11 @@
 describe('Connect Wallet Component', () => {
   it('Should create the app', () => {
     cy.visit('http://localhost:4200/connect-wallet')
-    cy.get('.welcome-msg-background').invoke('css', 'display', 'none')
     cy.get('app-root').should('exist')
   });
 
   it('User has Metamask extension installed', () => {
     cy.visit('http://localhost:4200/connect-wallet')
-    cy.get('.welcome-msg-background').invoke('css', 'display', 'none');
     cy.window().then((window) => {
       if(cy.window().ethereum){
         cy.get('.connect-wallet').click()
@@ -18,14 +16,12 @@ describe('Connect Wallet Component', () => {
 
     it('Goes to home page when clicked', () => {
       cy.visit('http://localhost:4200/connect-wallet')
-      cy.get('.welcome-msg-background').invoke('css', 'display', 'none');
       cy.get('.app-title').click()
       cy.url().should('include', 'http://localhost:4200');
     });
 
     it('User does not have Metamask extension installed', () =>{
       cy.visit('http://localhost:4200/connect-wallet')
-      cy.get('.welcome-msg-background').invoke('css', 'display', 'none');
       cy.window().ethereum = undefined
       cy.get('.connect-wallet').click()
       cy.on('window:alert',(popup)=>{
