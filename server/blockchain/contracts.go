@@ -98,6 +98,12 @@ func (exec Executor) DeployERC721Contract(cn ERC721Contract, name string,
 	error) {
 
 	address, tx, err := cn(exec.Txs, exec.Client, name, "CNFT", price, addr)
+
+	// Increment nonce
+	if err == nil {
+		exec.Txs.Nonce.Add(exec.Txs.Nonce, big.NewInt(1))
+	}
+
 	return address, tx, err
 }
 
@@ -106,5 +112,11 @@ func (exec Executor) DeployERC20ExecutorContract(cn ERC20ExecutorContract,
 	name string, addr common.Address) (common.Address, *types.Transaction, error) {
 
 	address, tx, err := cn(exec.Txs, exec.Client, name, "CNFT", addr)
+
+	// Increment nonce
+	if err == nil {
+		exec.Txs.Nonce.Add(exec.Txs.Nonce, big.NewInt(1))
+	}
+
 	return address, tx, err
 }

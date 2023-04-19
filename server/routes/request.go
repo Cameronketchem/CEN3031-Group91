@@ -5,8 +5,8 @@ import (
 	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain"
 	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain/erc721sale"
 	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain/executor"
-  "github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/Cameronketchem/CEN3031-Group91/server/data"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/gin-gonic/gin"
 	"math/big"
@@ -120,7 +120,7 @@ func getBatchAssets(store *data.Store, cont *blockchain.Executor, c *gin.Context
 
 	var JSONassets = []gin.H{}
 
-	for i := 0; i < 20; i++ {
+	for i := 0; i < len(assets); i++ {
 		EContract, Eerr := store.QueryContractById(assets[i].ExecContract)
 		AContract, Aerr := store.QueryContractById(assets[i].AssetContract)
 		Executor, _ := store.QueryUserById(assets[i].Executor)
@@ -269,15 +269,15 @@ func getAssetPrice(store *data.Store, cont *blockchain.Executor, c *gin.Context)
 	}
 
 	// Get asset price.
-  assetCnt, err := store.QueryContractById(asset.ExecContract)
-  if err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{
-      "error": "Cannot find the asset's assosciated contract"})
-    return
-  }
+	assetCnt, err := store.QueryContractById(asset.AssetContract)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Cannot find the asset's assosciated contract"})
+		return
+	}
 
-  addr := assetCnt.Addr
-	contex, err := executor.NewExecutorCaller(common.HexToAddress(addr), cont.Client)
+	addr := assetCnt.Addr
+	contex, err := erc721sale.NewErc721sale(common.HexToAddress(addr), cont.Client)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Server cannot reach asset contract"})
@@ -294,8 +294,7 @@ func getAssetPrice(store *data.Store, cont *blockchain.Executor, c *gin.Context)
 	factor := big.NewInt(1000000000000000000) // 10^18
 	price.Quo(price, factor)
 
-	priceu64 := price.Uint64()
-	c.JSON(http.StatusOK, priceu64)
+	c.JSON(http.StatusOK, price.Uint64())
 }
 
 // api/asset/:id/active
@@ -315,14 +314,14 @@ func getAssetActive(store *data.Store, cont *blockchain.Executor, c *gin.Context
 	}
 
 	// Get asset state.
-  assetCnt, err := store.QueryContractById(asset.ExecContract)
-  if err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{
-      "error": "Cannot find the asset's assosciated contract"})
-    return
-  }
+	assetCnt, err := store.QueryContractById(asset.ExecContract)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Cannot find the asset's assosciated contract"})
+		return
+	}
 
-  addr := assetCnt.Addr
+	addr := assetCnt.Addr
 	contex, err := executor.NewExecutorCaller(common.HexToAddress(addr), cont.Client)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -360,14 +359,14 @@ func getAssetContribByAddr(store *data.Store, cont *blockchain.Executor, c *gin.
 	address := common.HexToAddress(c.Params.ByName("addr"))
 
 	// Get address contributions.
-  assetCnt, err := store.QueryContractById(asset.ExecContract)
-  if err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{
-      "error": "Cannot find the asset's assosciated contract"})
-    return
-  }
+	assetCnt, err := store.QueryContractById(asset.ExecContract)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Cannot find the asset's assosciated contract"})
+		return
+	}
 
-  contractAddr := assetCnt.Addr
+	contractAddr := assetCnt.Addr
 	contex, err := executor.NewExecutorCaller(common.HexToAddress(contractAddr), cont.Client)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -386,7 +385,7 @@ func getAssetContribByAddr(store *data.Store, cont *blockchain.Executor, c *gin.
 	factor := big.NewInt(1000000000000000000) // 10^18
 	contrib.Quo(contrib, factor)
 
-  c.JSON(http.StatusOK, contrib.Uint64())
+	c.JSON(http.StatusOK, contrib.Uint64())
 }
 
 // api/asset/:id/balance
@@ -406,14 +405,14 @@ func getAssetBalance(store *data.Store, cont *blockchain.Executor, c *gin.Contex
 	}
 
 	// Get asset contract balance.
-  assetCnt, err := store.QueryContractById(asset.ExecContract)
-  if err != nil {
-    c.JSON(http.StatusInternalServerError, gin.H{
-      "error": "Cannot find the asset's assosciated contract"})
-    return
-  }
+	assetCnt, err := store.QueryContractById(asset.ExecContract)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Cannot find the asset's assosciated contract"})
+		return
+	}
 
-  addr := assetCnt.Addr
+	addr := assetCnt.Addr
 	contex, err := executor.NewExecutorCaller(common.HexToAddress(addr), cont.Client)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
@@ -432,5 +431,5 @@ func getAssetBalance(store *data.Store, cont *blockchain.Executor, c *gin.Contex
 	factor := big.NewInt(1000000000000000000) // 10^18
 	balance.Quo(balance, factor)
 
-  c.JSON(http.StatusOK, balance.Uint64())
+	c.JSON(http.StatusOK, balance.Uint64())
 }

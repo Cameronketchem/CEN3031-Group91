@@ -1,7 +1,5 @@
 package data
 
-// TODO: Queries for updating tables
-
 import (
 	"context"
 	"database/sql"

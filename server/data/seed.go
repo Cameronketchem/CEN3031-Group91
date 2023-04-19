@@ -3,6 +3,14 @@ package data
 import (
 	"context"
 	"database/sql"
+	"github.com/Cameronketchem/CEN3031-Group91/server/auth"
+	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain"
+	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain/erc721sale"
+	"github.com/Cameronketchem/CEN3031-Group91/server/blockchain/executor"
+	"github.com/Cameronketchem/CEN3031-Group91/server/utils"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/joho/godotenv"
+	"math/big"
 	"math/rand"
 )
 
@@ -19,15 +27,15 @@ var demoProfilePics = []string{
 	"https://i.seadn.io/gae/ae60XvBE8jGGyR8D5hrjIvb8Tftz0BZ6aDRM1EBh2QSfHVaQhUgNITXqJtSXW9Vw74PAKb0kfLmp2sMjkyT4D6fD-XGt4-tLzHpyN2w?auto=format&w=1000",
 }
 
-// Random polygon Mumbai network wallets
+// Test ganache wallets
 var demoUserWallets = []string{
-	"0xbe14eb1ffca54861d3081560110a45f4a1a9e9c5",
-	"0xe452b6b42df7cac9415df4ea4adee5f0c05104c2",
-	"0xa3e5ad28a494d23453d9a44a2e5081ccf4c430d6",
-	"0xf3a50c34b5182d0f1f28d7c066f2d7ecfbfdaa47",
-	"0x3329a7092369c64e5c5f5cf9b9c808013c4dd8bb",
-	"0x2e1d90501c3173367ecc6a409fb1b588bf3c16a5",
-	"0xd18b57f34e7800aea3bee1a235ac0a1966180fdf",
+	"0x04a8Ee6EC6679Ed99c6c93d46c0D1C96615090B1",
+	"0x6118E7163185b92B06706A545aDaF096A9F9F6cB",
+	"0xb21bB1464112bE56feB1Dcb8216Ff2Dd2fd6bd85",
+	"0xf8A2a70fBD171DE55b3ce25Bddd81295932197DF",
+	"0xe836E9d3fe7c8BAE7C52839b0aDEA69eF82423c9",
+	"0xa3e75AB84902DA606D6a6f95291233886c6b5999",
+	"0x569F7E8a48ad2dA6257cEfd5BB58943443a6b3C8",
 }
 
 // Source URLs of demo nfts.
@@ -57,6 +65,7 @@ var demoSeedTxs = []string{
 
 func demoSeed(ctx context.Context, tx *sql.Tx) error {
 	// Prepare expressions
+
 	userExpr, err := tx.Prepare(demoSeedTxs[0])
 	if err != nil {
 		return err
@@ -83,21 +92,77 @@ func demoSeed(ctx context.Context, tx *sql.Tx) error {
 
 	// Insert users
 	for i := 0; i < 7; i++ {
-		_, err = userExpr.Exec(i, demoUserWallets[i], "12345", demoProfilePics[i], "Lorem ipsum dolor sit amet")
+		nonce, _ := auth.Nonce(20)
+		_, err := userExpr.Exec(i, demoUserWallets[i],
+			nonce, demoProfilePics[i], "Lorem Ipsum dolor sit amet")
 		if err != nil {
 			return err
 		}
 	}
 
+	// Load .env
+	err = godotenv.Load()
+	if err != nil {
+		return err
+	}
+
+	// Create blockchain contract executor.
+	bc := blockchain.NewExecutor(utils.GetVar("PRIV_KEY"),
+		utils.GetVar("NODE_ADDR"))
+
+	// contract
+	ci := 0
+
 	// Insert contracts & assets
 	for i := 0; i < 100; i++ {
-		_, err = contractExpr.Exec(i, "0x123456", true, false)
+
+		// Asset properties
+		imgPreview := demoNftPics[rand.Intn(13)]
+		exec := rand.Intn(7)
+		desc := "Lorem ipsum dolor sit amet"
+		price := rand.Intn(300)
+
+		// Convert price into wei integer
+		priceflt := big.NewFloat(float64(price))
+		factor := big.NewFloat(1000000000000000000) // 10^18
+		priceflt.Mul(priceflt, factor)
+
+		priceint := new(big.Int)
+		priceflt.Int(priceint)
+
+		// Address needs to be in common.Address
+		address := common.HexToAddress(demoUserWallets[exec])
+
+		// Create asset contract.
+		assetAddr, _, err := bc.DeployERC721Contract(erc721sale.ERC721SALE,
+			"Test", priceint, address)
+
 		if err != nil {
 			return err
 		}
 
-		_, err = assetExpr.Exec(i, i, i, demoNftPics[rand.Intn(13)],
-			rand.Intn(8), "lorem ipsum dolor sit amet", 250)
+		_, err = contractExpr.Exec(ci, assetAddr.Hex(), false, false)
+		if err != nil {
+			return err
+		}
+		ci++
+
+		// Create executor contract
+		execAddr, _, err := bc.DeployERC20ExecutorContract(executor.ERC20EXECUTOR,
+			"Test", assetAddr)
+
+		if err != nil {
+			return err
+		}
+
+		_, err = contractExpr.Exec(ci, execAddr.Hex(), true, false)
+		if err != nil {
+			return err
+		}
+		ci++
+
+		// Finalize asset
+		_, err = assetExpr.Exec(i, ci-1, ci-2, imgPreview, exec, desc, price)
 		if err != nil {
 			return err
 		}
