@@ -9,6 +9,8 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.16
 )
 
+require github.com/joho/godotenv v1.5.1 // indirect
+
 require (
 	github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6 // indirect
 	github.com/btcsuite/btcd/btcec/v2 v2.2.0 // indirect
