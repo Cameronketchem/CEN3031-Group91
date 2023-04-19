@@ -97,7 +97,7 @@ func demoSeed(ctx context.Context, tx *sql.Tx) error {
 		}
 
 		_, err = assetExpr.Exec(i, i, i, demoNftPics[rand.Intn(13)],
-			rand.Intn(8), "lorem ipsum dolor sit amet", 250)
+			rand.Intn(8), "lorem ipsum dolor sit amet", rand.Intn(300))
 		if err != nil {
 			return err
 		}
